@@ -25,7 +25,7 @@ public class NBody {
         return planets;
     }
 
-    public static void drawBackground(double r) {
+    private static void drawBackground(double r) {
         StdDraw.setScale(-r, r);
         StdDraw.clear();
         StdDraw.picture(-r, r, background);
