@@ -1,5 +1,3 @@
-import javafx.scene.layout.Background;
-
 public class NBody {
     public static String background = "images/starfield.jpg";
 
