@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - NBody",
+            "request": "launch",
+            "mainClass": "NBody"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ArgsDemo",
+            "request": "launch",
+            "mainClass": "ArgsDemo"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DogLauncher",
+            "request": "launch",
+            "mainClass": "DogLauncher"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Dog",
+            "request": "launch",
+            "mainClass": "Dog"
+        }
+    ]
+}
