@@ -82,7 +82,7 @@ public class IntList {
     public static IntList dcatenate(IntList A, IntList B) {
         if (A.rest == null){
             A.rest = B;
-            return B;
+            return A;
         }
         dcatenate(A.rest, B);
         return A;
