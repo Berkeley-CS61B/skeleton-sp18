@@ -2,6 +2,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Debug (Launch)",
+            "request": "launch",
+            "mainClass": "Test"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - IntList",
+            "request": "launch",
+            "mainClass": "IntList"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - NBody",
             "request": "launch",
             "mainClass": "NBody"

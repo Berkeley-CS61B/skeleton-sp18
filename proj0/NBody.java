@@ -37,13 +37,12 @@ public class NBody {
         double dt = Double.parseDouble(args[1]);
         double time = 0;
         String fileName = args[2];
-        
         double radius = readRadius(fileName);
         Planet[] planets = readPlanets(fileName);
         double[] xForces = new double[planets.length];
         double[] yForces = new double[planets.length];
         StdDraw.enableDoubleBuffering();
-        while(time < T) {
+        while (time < T) {
             for (int i = 0; i < planets.length; i++) {
                 xForces[i] = planets[i].calcNetForceExertedByX(planets);
                 yForces[i] = planets[i].calcNetForceExertedByY(planets);
