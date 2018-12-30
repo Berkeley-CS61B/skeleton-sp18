@@ -100,6 +100,10 @@ public class IntList {
         return new IntList(A.first, catenate(A.rest, B));
     }
 
+    public static IntList reverse(IntList L) {
+        return null;
+    }
+
 
 
 
