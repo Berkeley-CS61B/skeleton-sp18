@@ -4,9 +4,9 @@ public class LinkedListTest {
        // testAddFirst();
        // testPrintDeque();
        // testAddLast();
-       // testRemoveFirst();
+       testRemoveFirst();
        // testGet();
-       testGetRecursive();
+    //    testGetRecursive();
    }
 
    public static void testAddFirst() {
@@ -44,6 +44,12 @@ public class LinkedListTest {
        System.out.println(L.removeFirst());
        System.out.println("The new queue shoud be 4");
        L.printDeque();
+
+       System.out.println("Test cornercase");
+       for(int i = 0; i < 5; i++) {
+           System.out.println(L.removeFirst());
+       }
+       System.out.println(L.size());
    }
 
    public static void testGet() {

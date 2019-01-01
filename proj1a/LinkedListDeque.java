@@ -59,6 +59,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
+        if(isEmpty()) {
+            return null;
+        }
         T temp = sentinel.next.item;
         sentinel.next = sentinel.next.next;           /* set sentinel point to the second node(the new 1st node) */
         sentinel.next.prev = sentinel;                /* set new first node's prev to the sentinel */
@@ -67,6 +70,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeLast() {
+        if(isEmpty()) {
+            return null;
+        }
         T temp = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;           /* about the same with the removeFirst() */
         sentinel.prev.next = sentinel;                /* always remember the invariants plz */
