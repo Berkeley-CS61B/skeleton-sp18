@@ -54,7 +54,7 @@ public class ArrayDeque<T> {
             size++;
         } else if(isEmpty()) {
             items[rear] = item;
-            rear = (rear + 1 + items.length) % items.lengths;
+            rear = (rear + 1 + items.length) % items.length;
             size++;
         } else {
             items[rear] = item;
