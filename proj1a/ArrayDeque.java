@@ -16,7 +16,7 @@ public class ArrayDeque<T> {
         if(front == (rear + 1 + items.length) % items.length) {
             int j = 0;
             T[] a = (T[]) new Object[items.length * 2];
-            for(int i = front; i != rear; i = (i + 1) % items.length) {            /*this line takes me a lot of time*/
+            for(int i = front; i != rear; i = (i + 1 + items.length) % items.length) {            /*this line takes me a lot of time*/
                 a[j] = items[i];
                 j++;          
             }
@@ -41,7 +41,7 @@ public class ArrayDeque<T> {
          if(front == (rear + 1 + items.length) % items.length) {
             int j = 0;
             T[] a = (T[]) new Object[items.length * 2];
-            for(int i = front; i != rear; i = (i + 1) % items.length) {            /*this line takes me a lot of time*/
+            for(int i = front; i != rear; i = (i + 1 + items.length) % items.length) {            /*this line takes me a lot of time*/
                 a[j] = items[i];
                 j++;          
             }
@@ -54,7 +54,7 @@ public class ArrayDeque<T> {
             size++;
         } else if(isEmpty()) {
             items[rear] = item;
-            rear += 1;
+            rear = (rear + 1 + items.length) % items.lengths;
             size++;
         } else {
             items[rear] = item;

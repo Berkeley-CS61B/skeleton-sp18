@@ -5,9 +5,9 @@ public class ArrayDequeTest {
         // System.out.println((-1) % 3);
         // testPrint();
         // testAddLast();
-        // testRemoveFirst();
+        testRemoveFirst();
         //  testRemoveLast();
-        testGet();
+        // testGet();
     }
 
     public static void testConstructor() {
@@ -48,13 +48,10 @@ public class ArrayDequeTest {
 
     public static void testRemoveFirst() {
         ArrayDeque<Integer> L = new ArrayDeque();
-        for(int i = 0; i < 3; i++) {
-            L.addFirst(3);
-            L.addFirst(4);
-            L.addFirst(5);
-            L.addFirst(6);
-        }
         for(int i = 0; i < 12; i++) {
+            L.addFirst(i);
+        }
+        for(int i = 0; i < 15; i++) {
             L.removeFirst();
         }
         System.out.println(L.removeFirst());
