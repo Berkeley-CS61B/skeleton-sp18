@@ -5,9 +5,10 @@ public class ArrayDequeTest {
         // System.out.println((-1) % 3);
         // testPrint();
         // testAddLast();
-        testRemoveFirst();
+        // testRemoveFirst();
         //  testRemoveLast();
         // testGet();
+        testRemoveFirstW();
     }
 
     public static void testConstructor() {
@@ -78,5 +79,30 @@ public class ArrayDequeTest {
          for(int i = 0; i < 15; i++) {
             System.out.println(L.get(i));
         }
+    }
+
+    public static void testRemoveFirstW() {
+        ArrayDeque<Integer> ArrayDeque = new ArrayDeque();
+        ArrayDeque.addLast(0);
+        ArrayDeque.addFirst(1);
+        ArrayDeque.removeFirst();     
+        ArrayDeque.get(0);      
+        ArrayDeque.removeFirst();     
+        ArrayDeque.addLast(5);
+        ArrayDeque.get(0);      
+        ArrayDeque.get(0);      
+        ArrayDeque.addFirst(8);
+        ArrayDeque.removeFirst();     
+        ArrayDeque.addLast(10);
+        ArrayDeque.removeLast();     
+        ArrayDeque.removeFirst();    
+        ArrayDeque.addFirst(13);
+        ArrayDeque.removeFirst();     
+        ArrayDeque.addFirst(15);
+        ArrayDeque.removeFirst();
+        ArrayDeque.addFirst(17);
+        ArrayDeque.addFirst(18);
+        ArrayDeque.addFirst(17);
+        ArrayDeque.addFirst(18);
     }
 }
