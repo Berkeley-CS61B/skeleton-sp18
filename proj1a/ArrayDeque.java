@@ -28,7 +28,7 @@ public class ArrayDeque<T> {
             size++;
         } else if(isEmpty()) {
             items[front] = item;
-            rear += 1;
+            rear = (rear + 1 + items.length) % items.length;
             size++;
         } else {
             front = (front - 1 + items.length) % items.length;
@@ -46,9 +46,8 @@ public class ArrayDeque<T> {
                 j++;          
             }
             items = a;
-            rear = j++;
+            rear = j++;                /* this line will not overflow */
             front = 0;
-
             items[rear] = item;
             rear++;
             size++;
