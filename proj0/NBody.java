@@ -26,7 +26,7 @@ public class NBody{
         // Create an animation
         StdDraw.enableDoubleBuffering();
         double initT = 0;
-        while(initT < T){
+        while(initT <= T){
             Double[] xForces = new Double[ps.length];
             Double[] yForces = new Double[ps.length];
             for(int i = 0;i < ps.length; i++){
@@ -46,6 +46,14 @@ public class NBody{
             StdDraw.show();
             StdDraw.pause(10);
             initT += dt;
+        };
+
+        StdOut.printf("%d\n", ps.length);
+        StdOut.printf("%.2e\n", universeRadius);
+        for (int i = 0; i < ps.length; i++) {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                ps[i].xxPos, ps[i].yyPos, ps[i].xxVel,
+                ps[i].yyVel, ps[i].mass, ps[i].imgFileName);   
         }
     }
 
