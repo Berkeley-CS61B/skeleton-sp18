@@ -1,5 +1,5 @@
 /** Class that determines whether or not a year is a leap year.
- *  @author YOUR NAME HERE
+ *  @author Joe
  */
 public class LeapYear {
 
@@ -28,6 +28,12 @@ public class LeapYear {
                 System.out.printf("%s is not a valid number.\n", args[i]);
             }
         }
+    }
+    public static Boolean isLeapYear(int year){
+        if(year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)){
+            return true;
+        }
+        return false;
     }
 }
 
