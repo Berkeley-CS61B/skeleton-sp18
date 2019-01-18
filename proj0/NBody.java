@@ -26,7 +26,7 @@ public class NBody{
         // Create an animation
         StdDraw.enableDoubleBuffering();
         double initT = 0;
-        while(initT <= T){
+        while(initT < T){
             Double[] xForces = new Double[ps.length];
             Double[] yForces = new Double[ps.length];
             for(int i = 0;i < ps.length; i++){
