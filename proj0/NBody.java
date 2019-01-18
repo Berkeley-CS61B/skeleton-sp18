@@ -34,7 +34,7 @@ public class NBody{
                 yForces[i] = ps[i].calcNetForceExertedByY(ps);              
             }
             for(int i = 0; i < ps.length; i++){
-                ps[i].update(dt, xForces[i], xForces[i]);
+                ps[i].update(dt, xForces[i], yForces[i]);
             }
 
             StdDraw.clear();
