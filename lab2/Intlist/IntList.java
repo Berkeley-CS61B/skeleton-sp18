@@ -81,8 +81,11 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        if(B == null)
+        if(A == null)
+        {
+            A = B;
             return A;
+        }
         IntList cursor = A;
 
         // move the cursor to the tail of A.
