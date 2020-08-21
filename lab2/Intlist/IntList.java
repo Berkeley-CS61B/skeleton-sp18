@@ -78,21 +78,34 @@ public class IntList {
     /**
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
+     * Iterative solution.
      */
 
-    public static IntList dcatenate(IntList A, IntList B) {
+//    public static IntList dcatenate(IntList A, IntList B) {
+//        if(A == null)
+//        {
+//            A = B;
+//            return A;
+//        }
+//        IntList cursor = A;
+//
+//        // move the cursor to the tail of A.
+//        while(cursor.rest != null) {
+//            cursor = cursor.rest;
+//        }
+//        cursor.rest = B;  // make the tail of A point to B.
+//        return A;
+//    }
+
+    /** Recursive version of dcatenate. */
+    public static IntList dcatenate(IntList A, IntList B)
+    {
         if(A == null)
         {
             A = B;
             return A;
         }
-        IntList cursor = A;
-
-        // move the cursor to the tail of A.
-        while(cursor.rest != null) {
-            cursor = cursor.rest;
-        }
-        cursor.rest = B;  // make the tail of A point to B.
+        A.rest = dcatenate(A.rest, B);
         return A;
     }
 
@@ -108,7 +121,23 @@ public class IntList {
         return head;
     }
 
-
+    /** Iterative version of catenate */
+//    public static IntList catenate(IntList A, IntList B){
+//        if(A == null)
+//            return B;
+//        IntList merged = new IntList(A.first, null);  // contructing the new list.
+//        A = A.rest;
+//        IntList tail = merged;
+//        // adding the nodes to the tail each time.
+//        while(A != null) {
+//            tail.rest = new IntList(A.first, null);
+//            A = A.rest;
+//            tail = tail.rest;
+//        }
+//        // concatinating B to the tail.
+//        tail.rest = B;
+//        return merged;
+//    }
 
 
 
