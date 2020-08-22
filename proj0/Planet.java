@@ -1,5 +1,5 @@
-class Planet {
-	static final double G = 6.67e-11;  // The Gravitational constant.
+public class Planet {
+	private static final double G = 6.67e-11;  // The Gravitational constant.
 
 	public double xxPos,  // Its current x position
 		   		  yyPos,  // Its current y position
@@ -57,9 +57,10 @@ class Planet {
 	/** Calculates the Y component of calcForceExertedBy() method. */
 	public double calcForceExertedByY(Planet p)
 	{
+		double dy = p.yyPos - yyPos;
 		double F = calcForceExertedBy(p);
-		double Fx = calcForceExertedByX(p);
-		return Math.sqrt(F * F - Fx * Fx);
+		double r = calcDistance(p);
+		return (F * dy) / r;
 	}
 
 	/** Calculates the NET X component of the Force exerted by each planet on 'this' planet. */

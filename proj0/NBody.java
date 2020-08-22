@@ -1,5 +1,7 @@
 /** A class to run the simulation */
-class NBody {
+public class NBody {
+   /** Default Constructor */
+   public NBody(){};
    /** Reads and returns the radius of the universe to be simulated. */
    public static double readRadius(String file)
    {
@@ -33,12 +35,12 @@ class NBody {
    }
 
    /** Draws the given image to the canvas. */
-   public static void drawBackground(String imgName){
+   private static void drawBackground(String imgName){
     StdDraw.picture(0, 0, imgName);
    }
 
    /** Draws all of the planets */
-   public static void drawPlanets(Planet[] planets){
+   private static void drawPlanets(Planet[] planets){
       for(Planet planet : planets)
         planet.draw();
    }
@@ -57,7 +59,6 @@ class NBody {
 
       drawPlanets(planets);
       StdDraw.show();
-      StdDraw.pause(3000);
       StdDraw.enableDoubleBuffering();
 
       final int PAUSE_TIME = 10;  // pause time in miliseconds.
@@ -78,9 +79,10 @@ class NBody {
         drawBackground(imgFileName);
         drawPlanets(planets);
         StdDraw.show();
-        StdDraw.pause(PAUSE_TIME * 250);
+        StdDraw.pause(PAUSE_TIME);
       }
 
+      // Output the data of the universe.
       StdOut.printf("%d\n", planets.length);
       StdOut.printf("%.2e\n", radius);
       for (int i = 0; i < planets.length; i++) {
