@@ -111,14 +111,25 @@ public class LinkedListDequeTest {
 	public static void addFirstArrayDequeTest() {
 		System.out.println("Running addFirstArrayDequeTest.");
 		ArrayDeque<Integer> arrd1 = new ArrayDeque<>();
-		for (int i = 0; i < 50; ++i) {
-			arrd1.addFirst(i);
-		}
-		arrd1.printDeque();
-		System.out.println("The 6th element is " + arrd1.get(6));
-		for (int i = 0; i < 37; ++i)
-			arrd1.removeFirst();
-		arrd1.printDeque();
+
+		arrd1.addFirst(0);
+		arrd1.addLast(1);
+		arrd1.addFirst(2);
+		arrd1.addLast(3);
+		arrd1.get(1);
+		arrd1.get(2);
+		arrd1.removeFirst();
+		arrd1.addFirst(7);
+		arrd1.removeFirst();
+		arrd1.addLast(9);
+		arrd1.addFirst(10);
+		arrd1.addLast(11);
+		arrd1.addLast(12);
+		arrd1.addFirst(13);
+		arrd1.addLast(14);
+		arrd1.removeFirst();
+		arrd1.addFirst(16);
+		System.out.println(arrd1.get(3));
 	}
 
 	public static void main(String[] args) {
