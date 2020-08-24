@@ -111,25 +111,38 @@ public class LinkedListDequeTest {
 	public static void addFirstArrayDequeTest() {
 		System.out.println("Running addFirstArrayDequeTest.");
 		ArrayDeque<Integer> arrd1 = new ArrayDeque<>();
-
+		int[] results = new int[4];
 		arrd1.addFirst(0);
-		arrd1.addLast(1);
+		results[0] = arrd1.removeFirst();
 		arrd1.addFirst(2);
-		arrd1.addLast(3);
-		arrd1.get(1);
-		arrd1.get(2);
-		arrd1.removeFirst();
+		results[1] = arrd1.removeFirst();
+		arrd1.isEmpty();
+		arrd1.addFirst(5);
+		results[2] = arrd1.removeFirst();
 		arrd1.addFirst(7);
-		arrd1.removeFirst();
-		arrd1.addLast(9);
-		arrd1.addFirst(10);
-		arrd1.addLast(11);
-		arrd1.addLast(12);
-		arrd1.addFirst(13);
-		arrd1.addLast(14);
-		arrd1.removeFirst();
-		arrd1.addFirst(16);
-		System.out.println(arrd1.get(3));
+		results[3] = arrd1.removeFirst();
+	}
+
+	/** tests get method in LinkedListDeque. */
+	public static void getTest() {
+		LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+		// should be empty
+		for (int i = 0; i < 5; ++i) {
+			lld1.addLast(i);
+		}
+		boolean passed;
+		LinkedListDeque<Integer> lld2 = new LinkedListDeque<>(lld1);
+		lld2.removeFirst();
+		lld2.removeFirst();
+//		lld1.addFirst(10);
+//		// should not be empty
+//		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+//
+//		lld1.removeFirst();
+//		// should be empty
+//		passed = checkEmpty(true, lld1.isEmpty()) && passed;
+
+		// printTestStatus(passed);
 	}
 
 	public static void main(String[] args) {
@@ -137,6 +150,7 @@ public class LinkedListDequeTest {
 		addIsEmptySizeTest();
 		addRemoveTest();
 		addIsEmptySizeTest2();
+		getTest();
 		addFirstArrayDequeTest();
 	}
 } 

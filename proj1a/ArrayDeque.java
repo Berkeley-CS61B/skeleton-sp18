@@ -28,7 +28,13 @@ public class ArrayDeque<T>{
 
     /** Copy Constructor -- Creates DEEP COPY. */
     public ArrayDeque(ArrayDeque other) {
-        // ADD YOUR CODE HERE
+        data = (T[]) new Object[capacity];
+        size = 0;
+        nextFirst = 0;
+        nextLast = 1;
+        for (int i = nextFirst; i < other.size(); ++i) {
+            data[i % data.length] = (T)other.data[i % data.length];
+        }
     }
 
     /** Adds an item of type T to the front of the deque. */
@@ -88,9 +94,11 @@ public class ArrayDeque<T>{
         nextFirst = (nextFirst + 1) % data.length;
 
         // Shrink the array if necessary
-        double ratio = size / (double)capacity;
-        if(ratio < THRESHOLD) {
-            scale((int) (capacity * 0.5));
+        if (size > 8) {
+            double ratio = size / (double) capacity;
+            if (ratio < THRESHOLD) {
+                scale((int) (capacity * 0.5));
+            }
         }
         return item;
     }
@@ -111,10 +119,11 @@ public class ArrayDeque<T>{
         nextLast -= 1;
         size -= 1;
         // Shrink the array if necessary
-        double ratio = size / (double)capacity;
-        if(ratio < THRESHOLD)
-            scale((int)(capacity * 0.5));
-
+        if (size > 8) {
+            double ratio = size / (double) capacity;
+            if (ratio < THRESHOLD)
+                scale((int) (capacity * 0.5));
+        }
         return item;
     }
 

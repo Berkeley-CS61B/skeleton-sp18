@@ -133,18 +133,23 @@ public class LinkedListDeque<T> {
             return null;
         Node cursor = sentinel.next;
         int i = 0;
-        while(i < index)
+        while(i < index) {
             cursor = cursor.next;
+            ++i;
+        }
         return cursor.item;
     }
 
-    /** Recursive version of get(). See get() for doc. */
-    public T getRecursive(int index)
-    {
+    /** Helper function for getRecursive. */
+    private T getRecursive(int index, Node node) {
         if(index < 0 || index >= size)
             return null;
         if(index == 0)
-            return sentinel.next.item;
-        return getRecursive(index - 1);
+            return node.item;
+        return getRecursive(index - 1, node.next);
+    }
+    /** Recursive version of get(). See get() for doc. */
+    public T getRecursive(int index) {
+        return getRecursive(index, sentinel.next);
     }
 }
