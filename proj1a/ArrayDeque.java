@@ -122,7 +122,7 @@ public class ArrayDeque<T>{
      *  1 is the next item, and so forth. If no such item exists,
      *  returns null. Deque is NOT ALTERED.
      */
-    public T get(int index){return data[index];}
+    public T get(int index){return data[(nextFirst + index + 1) % size];}
 
     /** ----- HELPER FUNCTIONS ------ */
 

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
 	
@@ -80,9 +82,50 @@ public class LinkedListDequeTest {
 
 	}
 
+	public static void addIsEmptySizeTest2() {
+		System.out.println("Running add/isEmpty/Size test 2.");
+		ArrayDeque<String> arrd1 = new ArrayDeque<>();
+
+		boolean passed = checkEmpty(true, arrd1.isEmpty());
+
+		arrd1.addFirst("front");
+
+		// The && operator is the same as "and" in Python.
+		// It's a binary operator that returns true if both arguments true, and false otherwise.
+		passed = checkSize(1, arrd1.size()) && passed;
+		passed = checkEmpty(false, arrd1.isEmpty()) && passed;
+
+		arrd1.addLast("middle");
+		passed = checkSize(2, arrd1.size()) && passed;
+
+		arrd1.addLast("back");
+		passed = checkSize(3, arrd1.size()) && passed;
+
+		System.out.println("Printing out deque: ");
+		arrd1.printDeque();
+
+		printTestStatus(passed);
+	}
+
+	/** tests add first with more data */
+	public static void addFirstArrayDequeTest() {
+		System.out.println("Running addFirstArrayDequeTest.");
+		ArrayDeque<Integer> arrd1 = new ArrayDeque<>();
+		for (int i = 0; i < 50; ++i) {
+			arrd1.addFirst(i);
+		}
+		arrd1.printDeque();
+		System.out.println("The 6th element is " + arrd1.get(6));
+		for (int i = 0; i < 37; ++i)
+			arrd1.removeFirst();
+		arrd1.printDeque();
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Running tests.\n");
 		addIsEmptySizeTest();
 		addRemoveTest();
+		addIsEmptySizeTest2();
+		addFirstArrayDequeTest();
 	}
 } 

@@ -1,11 +1,12 @@
 /** Contains the class of a Deque data structure.
- * @author: Adnan H. Mohamed
  *
  *   ---- CLASS INVARIANT ----
  *   1- size is the number of elements in the Deque.
  *   2- sentinel.next.item is the first item in the Deque.
  *   3- sentinel.prev is pointing to the last element (possibly null).
  *   4- The tail element's <next> is pointing to sentinel
+ *
+ * @author: Adnan H. Mohamed
  */
 public class LinkedListDeque<T> {
 
@@ -41,6 +42,7 @@ public class LinkedListDeque<T> {
         sentinel = new Node();
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
+        size = 0;
         for (Node cursor = other.sentinel; cursor.next != other.sentinel; cursor = cursor.next)
         {
             addLast(cursor.next.item);
@@ -145,5 +147,4 @@ public class LinkedListDeque<T> {
             return sentinel.next.item;
         return getRecursive(index - 1);
     }
-
 }
