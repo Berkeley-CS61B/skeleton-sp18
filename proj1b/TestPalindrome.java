@@ -28,9 +28,9 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome(" "));
 
         /** Tricky tests */
-        assertFalse(palindrome.isPalindrome("No lemon no melon"));
+        assertFalse(palindrome.isPalindrome("Nolemonnomelon"));
         assertTrue(palindrome.isPalindrome("anna"));
-        assertTrue(palindrome.isPalindrome("i did did i"));
-        assertTrue(palindrome.isPalindrome("no lemon no melon"));
+        assertTrue(palindrome.isPalindrome("ididdidi"));
+        assertTrue(palindrome.isPalindrome("nolem on no melon"));
     }
 }
