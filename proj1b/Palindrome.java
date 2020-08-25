@@ -22,12 +22,30 @@ public class Palindrome {
         return isPalindrome(wordToDeque(word));
     }
 
+    /** Returns true iff d contains a palindrome.
+     *
+     * @param d
+     * @return boolean.
+     */
     private boolean isPalindrome(Deque<Character> d) {
         if (d.size() < 2) {
             return true;
         } else {
             return d.removeFirst() == d.removeLast()
                     && isPalindrome(d);
+        }
+    }
+
+    public boolean isPalindrome(String word, CharacterComparator cc) {
+        return isPalindrome(wordToDeque(word), cc);
+    }
+
+    private boolean isPalindrome(Deque<Character> d, CharacterComparator cc) {
+        if (d.size() < 2) {
+            return true;
+        } else {
+            return cc.equalChars(d.removeFirst(), d.removeLast())
+                    && isPalindrome(d, cc);
         }
     }
 }
