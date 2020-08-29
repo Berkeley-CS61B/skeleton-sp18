@@ -10,7 +10,7 @@ import huglife.Impassible;
 import huglife.Empty;
 
 /** Tests the plip class   
- *  @authr FIXME
+ *  @author Adnan H. Mohamed
  */
 
 public class TestPlip {
@@ -36,10 +36,19 @@ public class TestPlip {
 
     @Test
     public void testReplicate() {
+        Plip p = new Plip(2);
+        Plip baby_plip = p.replicate();
+        assertFalse(p == baby_plip);
+        assertTrue(p.energy() == 1);
+        assertTrue(baby_plip.energy() == 1);
 
+        Plip baby2 = p.replicate();
+        assertFalse(p == baby2);
+        assertEquals(0.5, p.energy(), 0.001);
+        assertEquals(0.5, baby2.energy(), 0.001);
     }
 
-    //@Test
+    @Test
     public void testChoose() {
         Plip p = new Plip(1.2);
         HashMap<Direction, Occupant> surrounded = new HashMap<Direction, Occupant>();

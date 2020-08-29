@@ -10,6 +10,7 @@ import java.util.List;
 
 /** An implementation of a motile pacifist photosynthesizer.
  *  @author Josh Hug
+ *  @co-author Adnan H. Mohamed
  */
 public class Plip extends Creature {
 
@@ -19,6 +20,10 @@ public class Plip extends Creature {
     private int g;
     /** blue color. */
     private int b;
+    /** energy portion to give offsprings */
+    private static final double ENERGY_LOSS = 0.5;
+    /** running away from Cloruses probability. */
+    private static final double MOVE_PROBABILITY = 0.5;
 
     /** creates plip with energy equal to E. */
     public Plip(double e) {
@@ -42,7 +47,9 @@ public class Plip extends Creature {
      *  that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        r = 99;
+        g = (int)(96*energy + 63);
+        b = 76;
         return color(r, g, b);
     }
 
@@ -55,11 +62,13 @@ public class Plip extends Creature {
      *  private static final variable. This is not required for this lab.
      */
     public void move() {
+        energy = Math.max(energy - 0.15, 0);
     }
 
 
     /** Plips gain 0.2 energy when staying due to photosynthesis. */
     public void stay() {
+        energy = Math.min(energy + 0.2, 2);
     }
 
     /** Plips and their offspring each get 50% of the energy, with none
@@ -67,20 +76,35 @@ public class Plip extends Creature {
      *  Plip.
      */
     public Plip replicate() {
-        return this;
+        Plip new_baby = new Plip(energy * ENERGY_LOSS);
+        energy = energy * (1 - ENERGY_LOSS);
+        return new_baby;
     }
 
     /** Plips take exactly the following actions based on NEIGHBORS:
      *  1. If no empty adjacent spaces, STAY.
      *  2. Otherwise, if energy >= 1, REPLICATE.
-     *  3. Otherwise, if any Cloruses, MOVE with 50% probability.
-     *  4. Otherwise, if nothing else, STAY
+     *  3. Otherwise, if clorus seen, MOVE to another place
+     *     with a chance of MOVE_PROBABILITY.
+     *  4. Otherwise, STAY
      *
      *  Returns an object of type Action. See Action.java for the
      *  scoop on how Actions work. See SampleCreature.chooseAction()
      *  for an example to follow.
      */
     public Action chooseAction(Map<Direction, Occupant> neighbors) {
+        List<Direction> empties = getNeighborsOfType(neighbors, "empty");
+        if (empties.size() == 0) {
+            return new Action(Action.ActionType.STAY);
+        } else if (energy >= 1) {
+            Direction repDir = HugLifeUtils.randomEntry(empties);
+            return new Action(Action.ActionType.REPLICATE, repDir);
+        } else if (getNeighborsOfType(neighbors, "clorus").size() > 0) {
+            if (HugLifeUtils.random() < MOVE_PROBABILITY) {
+                Direction moveDir = HugLifeUtils.randomEntry(empties);
+                return new Action(Action.ActionType.MOVE, moveDir);
+            }
+        }
         return new Action(Action.ActionType.STAY);
     }
 
