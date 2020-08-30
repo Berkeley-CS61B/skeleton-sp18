@@ -6,17 +6,13 @@ package synthesizer;
 
 import java.util.Iterator;
 
-public class ArrayRingBuffer<T> implements BoundedQueue<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int _first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
     private int _last;
     /* Array for storing the buffer data. */
     private T[] _rb;
-    /* The capacity of the buffer. */
-    private int _capacity;
-    /* Number of elements in the array. */
-    private int _size;
 
     /**
      * Create a new synthesizer.ArrayRingBuffer with the given capacity.
@@ -64,17 +60,6 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
             throw new RuntimeException("Ring buffer overflow");
         }
         return _rb[_first];
-    }
-
-    /** Returns size of the buffer. */
-    @Override
-    public int capacity() {
-        return _capacity;
-    }
-    /** Returns number of items currently in the buffer. */
-    @Override
-    public int fillCount() {
-        return _size;
     }
     // TODO: When you get to part 5, implement the needed code to support iteration.
 }
