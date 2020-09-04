@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import lab9.BSTMap;
+import java.util.Set;
+import java.util.Random;
 
 /**
  * Tests by Brendan Hu, Spring 2015, revised for 2018 by Josh Hug
@@ -84,6 +86,42 @@ public class TestBSTMap {
         b.put("hi", 1);
         assertTrue(b.containsKey("hi"));
         assertTrue(b.get("hi") != null);
+    }
+
+    // testing keySet.
+    @Test (timeout = 25000)
+    public void sanityKeySetTest() {
+        BSTMap<String, Integer> b = new BSTMap<String, Integer>();
+        for (int i = 0; i < 455; i++) {
+            b.put("hi" + i, 1 + i);
+        }
+        Set<String> keys = b.keySet();
+        for (int i = 0; i < 455; i++) {
+            assertTrue(keys.contains("hi" + i));
+        }
+    }
+
+    // testing remove.
+    @Test //(timeout = 25000)
+    public void sanityRemoveTest() {
+        Random r = new Random(543);
+        BSTMap<String, Integer> b = new BSTMap<String, Integer>();
+        for (int i = 0; i < 20; i++) {
+            int val = Math.abs(r.nextInt()) % 30;
+            b.put("hi" + val, 1 + val);
+        }
+
+        int many_elements = b.size();
+        while (!b.is_Empty()) {
+            String key = "hi" + (r.nextInt() % 30);
+            if (b.get(key) != null) {
+                b.remove(key);
+                many_elements -= 1;
+                assertEquals(many_elements, b.size());
+                Integer ans = b.get(key);
+                assertEquals(null, ans);
+            }
+        }
     }
 
     public static void main(String[] args) {

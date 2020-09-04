@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -108,7 +109,21 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> key_set = new HashSet<>();
+        keySetHelper(_root, key_set);
+        return key_set;
+    }
+
+    /** Adds the keys from the bst rooted at N
+     *  to the given set KEY_SET.
+     */
+    private void keySetHelper(Node n, Set<K> key_set) {
+        /** using in-order traversal to add the element to the set. */
+        if (n == null)
+            return;
+        keySetHelper(n._left, key_set);  // do the work for the left sub-tree.
+        key_set.add(n._key);             // Adding the root.
+        keySetHelper(n._right, key_set); // do the work for the right sub-tree.
     }
 
     /** Removes KEY from the tree if present
@@ -117,7 +132,79 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        V val = get(key);
+        if (val == null)
+            return null;
+        _root = remove(_root, key);
+        return val;
+    }
+
+    /** Removes and returns the updated bst rooted
+     *  at the returned node. If the tree is empty
+     *  null is returned.
+     */
+    private Node remove(Node n, K key) {
+       if (n == null)
+           return null;
+       int cmp = key.compareTo(n._key);
+
+       if (cmp < 0) {
+           n._left = remove(n._left, key);
+       }
+       else if (cmp > 0) {
+           n._right = remove(n._right, key);
+       }
+       else {
+           if (n._left == null) {
+               _size -= 1;
+               return n._right;
+           }
+           else if (n._right == null) {
+               _size -= 1;
+               return n._left;
+           }
+           else {
+               Node predecessor = max(n._left);
+               n._key = predecessor._key;
+               n._value = predecessor._value;
+               n._left = remove_max(n._left);
+           }
+       }
+        return n;
+    }
+
+    /** Returns the node holding the largest KEY
+     *  in the bst rooted at N.
+     *  If the bst is empty, null is returned.
+     */
+    private Node max(Node n) {
+        if (n == null)
+            return null;
+        if (n._right == null)
+            return n;
+        return max(n._right);
+    }
+
+    /** Removes the node holding the largest Key.
+     *  and returns the new bst with that node removed.
+     *  If the bst is empty, null is returned.
+     * Note: the size is decremented by one. */
+    private Node remove_max(Node n) {
+        if(n == null)
+            return null;
+        if (n._right == null) {
+            _size -= 1;
+            return n._left;
+        }
+        else {
+            n._right = remove_max(n._right);
+            return n;
+        }
+    }
+
+    /** Returns true iff the bst is empty. */
+    public boolean is_Empty() {
+        return _size == 0;
     }
 
     /** Removes the key-value entry for the specified key only if it is
