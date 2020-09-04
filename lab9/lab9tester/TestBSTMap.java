@@ -4,8 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import lab9.BSTMap;
+
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
+
 
 /**
  * Tests by Brendan Hu, Spring 2015, revised for 2018 by Josh Hug
@@ -102,18 +105,18 @@ public class TestBSTMap {
     }
 
     // testing remove.
-    @Test //(timeout = 25000)
+    @Test (timeout = 25000)
     public void sanityRemoveTest() {
         Random r = new Random(543);
         BSTMap<String, Integer> b = new BSTMap<String, Integer>();
-        for (int i = 0; i < 20; i++) {
-            int val = Math.abs(r.nextInt()) % 30;
+        for (int i = 0; i < 70; i++) {
+            int val = r.nextInt() % 70;
             b.put("hi" + val, 1 + val);
         }
 
         int many_elements = b.size();
         while (!b.is_Empty()) {
-            String key = "hi" + (r.nextInt() % 30);
+            String key = "hi" + (r.nextInt() % 70);
             if (b.get(key) != null) {
                 b.remove(key);
                 many_elements -= 1;
@@ -122,6 +125,30 @@ public class TestBSTMap {
                 assertEquals(null, ans);
             }
         }
+    }
+
+    @Test
+    public void sanityIteratorTest() {
+        final int TEST_SIZE = 100;
+        Random r = new Random(54);
+        BSTMap<String, Integer> b = new BSTMap<String, Integer>();
+        Set<String> key_set = new HashSet<>();
+        for (int i = 0; i < TEST_SIZE; i++) {
+            int val = Math.abs(r.nextInt()) % 80;
+            String key = "hi" + val;
+            key_set.add(key);
+            b.put(key, 1 + val);
+        }
+        String[] expected = key_set.toArray(new String[key_set.size()]);
+        java.util.Arrays.sort(expected);
+        String[] actual = new String[expected.length];
+        int j = 0;
+        for (String key: b) {
+            actual[j] = key;
+            j += 1;
+        }
+
+        assertArrayEquals(expected, actual);
     }
 
     public static void main(String[] args) {

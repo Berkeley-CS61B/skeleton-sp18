@@ -1,8 +1,6 @@
 package lab9;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementation of interface Map61B with BST as core data structure.
@@ -213,11 +211,24 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (get(key).equals(value)) {
+            return remove(key);
+        }
+        return null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        LinkedList<K> list = new LinkedList<>();
+        to_list(_root, list);
+        return list.iterator();
+    }
+
+    private void to_list(Node n, LinkedList<K> list) {
+        if(n == null)
+            return;
+        to_list(n._left, list);
+        list.add(n._key);
+        to_list(n._right, list);
     }
 }
