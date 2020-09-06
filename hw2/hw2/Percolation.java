@@ -66,7 +66,6 @@ public class Percolation {
             arr[i] = num;
             i++;
         }
-        System.out.println("length = " + arr.length);
         return arr;
     }
 
@@ -159,6 +158,10 @@ public class Percolation {
 
     /** required for autograder. (optionally used for testing). */
     public static void main(String[] args) {
-
+        Percolation pf = new Percolation(10);
+        pf.open(1, 2);
+        pf.open(3, 4);
+        pf.open(3, 3);
+        org.junit.Assert.assertEquals(3, pf.numberOfOpenSites());
     }
 }
