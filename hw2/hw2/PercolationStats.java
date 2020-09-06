@@ -58,7 +58,7 @@ public class PercolationStats {
         double u = mean();
         double numerator = 0;
         for (double t : thresholds) {
-            numerator -= Math.pow(t - u, 2);
+            numerator += Math.pow(t - u, 2);
         }
         return numerator / (T - 1);
     }
