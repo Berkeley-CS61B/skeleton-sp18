@@ -1,6 +1,8 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -77,30 +79,45 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
 
+    /** Returns true iff the bst is empty. */
+    public boolean is_Empty() {
+        return size == 0;
+    }
+
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> key_set = new HashSet<>();
+        for (ArrayMap bucket:buckets) {
+            key_set.addAll(bucket.keySet());
+        }
+        return key_set;
     }
 
     /* Removes the mapping for the specified key from this map if exists.
-     * Not required for this lab. If you don't implement this, throw an
-     * UnsupportedOperationException. */
+     * If you don't implement this, throw an UnsupportedOperationException. */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        int h = hash(key);
+        V val = buckets[h].remove(key);
+        if (val != null) {
+            size -= 1;
+        }
+        return val;
     }
 
     /* Removes the entry for the specified key only if it is currently mapped to
-     * the specified value. Not required for this lab. If you don't implement this,
-     * throw an UnsupportedOperationException.*/
+     * the specified value. If you don't implement this, throw an UnsupportedOperationException.*/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (value.equals(get(key))) {
+            return remove(key);
+        }
+        return null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
     }
 }
