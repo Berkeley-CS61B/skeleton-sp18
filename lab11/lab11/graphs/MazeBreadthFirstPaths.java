@@ -26,7 +26,6 @@ public class MazeBreadthFirstPaths extends MazeExplorer {
 
     /** Conducts a breadth first search of the maze starting at the source. */
     private void bfs() {
-        // TODO: Your code here. Don't forget to update distTo, edgeTo, and marked, as well as call announce()
         marked[s] = true;
         announce();
         Queue<Integer> q = new ArrayDeque<>();
