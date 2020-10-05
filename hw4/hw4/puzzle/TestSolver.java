@@ -107,7 +107,7 @@ public class TestSolver {
 
     @Test(timeout = 40000)
     public void test3x3BoardPuzzles() {
-        for (int i = 0; i <= 30; i += 1) {
+        for (int i = 20; i <= 30; i += 1) {
             String pnum = String.format("%02d", i);
             String puzzleName = "input/puzzle3x3-" + pnum + ".txt";
             Board b = readBoard(puzzleName);
@@ -118,9 +118,9 @@ public class TestSolver {
         }
     }
 
-    @Test(timeout = 20000)
+    @Test(timeout = 30000)
     public void test4x4BoardPuzzles() {
-        for (int i = 0; i <= 20; i += 1) {
+        for (int i = 20; i <= 30; i += 1) {
             String pnum = String.format("%02d", i);
             String puzzleName = "input/puzzle4x4-" + pnum + ".txt";
             Board b = readBoard(puzzleName);
@@ -133,7 +133,7 @@ public class TestSolver {
 
     @Test(timeout = 20000)
     public void testVariousPuzzles() {
-        for (int i = 0; i <= 20; i += 1) {
+        for (int i = 0; i <= 31; i += 1) {
             String pnum = String.format("%02d", i);
             String puzzleName = "input/puzzle" + pnum + ".txt";
             Board b = readBoard(puzzleName);
