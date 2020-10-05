@@ -88,7 +88,7 @@ public class Board implements WorldState {
                 }
             }
         }
-        return count / 2;
+        return count;
     }
 
     /** Manhattan estimate described below. */
@@ -103,7 +103,7 @@ public class Board implements WorldState {
                 answer += Math.abs(r - r2) + Math.abs(c - c2);
             }
         }
-        return answer / 2;
+        return answer;
     }
 
     /** Estimated distance to goal. This method should
