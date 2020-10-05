@@ -83,6 +83,9 @@ public class Board implements WorldState {
                         // in the wrong positions.
         for (int r = 0; r < size(); ++r) {
             for (int c = 0; c < size(); ++c) {
+                if (tileAt(r, c) == BLANK) {
+                    continue;
+                }
                 if (tileAt(r, c) != solution[to1D(r, c)]) {
                     count++;
                 }
@@ -96,7 +99,10 @@ public class Board implements WorldState {
         int answer = 0;
         for (int c = 0; c < size(); c++) {
             for (int r = 0; r < size(); r++) {
-                int x = tileAt(r, c) == 0 ? N * N -1: tileAt(r, c) - 1;
+                int x = tileAt(r, c) - 1;
+                if (x == -1) {
+                    continue;
+                }
                 int r2 = x / N;
                 int c2 = x - N * r2;
 
@@ -128,6 +134,18 @@ public class Board implements WorldState {
             }
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        int base = N*N;
+        for (int r = 0; r < N; r++) {
+            for (int c = 0; c < N; c++) {
+                hash += tileAt(r, c) * Math.pow(base, to1D(r, c));
+            }
+        }
+        return hash;
     }
 
     /** Returns the string representation of the board. 
