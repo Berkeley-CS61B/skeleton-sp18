@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
  * store Comparable objects. Instead, it can store any type of object
  * (represented by type T), along with a priority value. Why do it this way? It
  * will be useful later on in the class...
+ *
+ * @author Adnan H. Mohamed
  */
 public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private Node[] contents;
@@ -27,24 +29,21 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2 * i;
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2 * i + 1;
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i / 2;
     }
 
     /**
@@ -64,10 +63,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * invalid because we leave the 0th entry blank.
      */
     private boolean inBounds(int index) {
-        if ((index > size) || (index < 1)) {
-            return false;
-        }
-        return true;
+        return index <= size && index >= 1;
     }
 
     /**
@@ -106,9 +102,16 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        int parentIndex = parentIndex(index);
+        double myPriority = getNode(index).priority();
+        if (index == 1 || myPriority >= getNode(parentIndex).priority()) {
+            // base-case: you are at the root node at index is
+            // in the right place.
+            return;
+        } else {
+            swap(index, parentIndex);
+            swim(parentIndex);
+        }
     }
 
     /**
@@ -118,8 +121,31 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-        return;
+        int l = leftIndex(index);
+        int r = rightIndex(index);
+        if (!inBounds(l)) {
+            return;
+        }
+        double p = getNode(index).priority();
+        double pleft = getNode(l).priority();
+        if (getNode(r) == null) {
+            if (pleft < p) {
+                swap(l, index);
+                sink(l);
+            } else {
+                return;
+            }
+        }
+        double pright = getNode(r).priority();
+        if (p <= pright && p <= pleft) {
+            return;
+        } else if (pright < pleft) {
+            swap(r, index);
+            sink(r);
+        } else{
+            swap(l, index);
+            sink(l);
+        }
     }
 
     /**
@@ -133,7 +159,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             resize(contents.length * 2);
         }
 
-        /* TODO: Your code here! */
+        contents[size + 1] = new Node(item, priority);
+        size += 1;
+        swim(size);
     }
 
     /**
@@ -142,8 +170,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return null;
+        return contents[1].item();
     }
 
     /**
@@ -157,8 +184,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+        T val = peek();
+        contents[1] = contents[size];
+        contents[size] = null;
+        size -= 1;
+        sink(1);
+        return val;
     }
 
     /**
@@ -180,8 +211,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
-        return;
+        // searching for the node with the given item
+        // 'in-order' search.
+        for (int i = 1; i <= size; ++i) {
+            if (contents[i].item().equals(item)) {
+                contents[i].myPriority = priority;
+                return;
+            }
+        }
     }
 
     /**

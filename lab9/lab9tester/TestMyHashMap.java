@@ -2,8 +2,14 @@ package lab9tester;
 
 import static org.junit.Assert.*;
 
+import lab9.MyHashMap;
+import lab9.MyHashMap;
 import org.junit.Test;
 import lab9.MyHashMap;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Tests by Brendan Hu, Spring 2015, revised for 2018 by Josh Hug
@@ -125,6 +131,60 @@ public class TestMyHashMap {
         studentIDs.put("evil alan", 345);
         assertEquals(345, studentIDs.get("evil alan").intValue());
         assertEquals(studentIDs.get("evil alan"), studentIDs.get("alan"));
+    }
+
+    // testing keySet.
+    @Test (timeout = 25000)
+    public void sanityKeySetTest() {
+        MyHashMap<String, Integer> h = new MyHashMap<>();
+        for (int i = 0; i < 455; i++) {
+            h.put("hi" + i, 1 + i);
+        }
+        Set<String> keys = h.keySet();
+        for (int i = 0; i < 455; i++) {
+            assertTrue(keys.contains("hi" + i));
+        }
+    }
+
+    // testing remove.
+    @Test (timeout = 25000)
+    public void sanityRemoveTest() {
+        Random r = new Random(543);
+        MyHashMap<String, Integer> b = new MyHashMap<String, Integer>();
+        for (int i = 0; i < 70; i++) {
+            int val = r.nextInt() % 70;
+            b.put("hi" + val, 1 + val);
+        }
+
+        int many_elements = b.size();
+        while (!b.is_Empty()) {
+            String key = "hi" + (r.nextInt() % 70);
+            if (b.get(key) != null) {
+                b.remove(key);
+                many_elements -= 1;
+                assertEquals(many_elements, b.size());
+                Integer ans = b.get(key);
+                assertEquals(null, ans);
+            }
+        }
+    }
+
+    @Test
+    public void sanityIteratorTest() {
+        final int TEST_SIZE = 100;
+        Random r = new Random(54);
+        MyHashMap<String, Integer> b = new MyHashMap<String, Integer>();
+        Set<String> key_set = new HashSet<>();
+        for (int i = 0; i < TEST_SIZE; i++) {
+            int val = Math.abs(r.nextInt()) % 80;
+            String key = "hi" + val;
+            key_set.add(key);
+            b.put(key, 1 + val);
+        }
+        for (String key: b) {
+            assertTrue(key_set.contains(key));
+        }
+        assertTrue(key_set.size() == b.size());
     }
 
     public static void main(String[] args) {
