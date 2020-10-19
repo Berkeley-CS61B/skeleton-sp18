@@ -47,7 +47,7 @@ public class Router {
         distTo.put(src, 0.0);
 
         pq.add(src);
-        while (!pq.isEmpty()) {
+        while (!marked.contains(dst)) {
             Long v = pq.poll();
             marked.add(v);
             for (Long w : g.adjacent(v)) {
