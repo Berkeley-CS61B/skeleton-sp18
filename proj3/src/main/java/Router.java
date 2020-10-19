@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +11,7 @@ import java.util.regex.Pattern;
  * down to the priority you use to order your vertices.
  */
 public class Router {
+
     /**
      * Return a List of longs representing the shortest path from the node
      * closest to a start location and the node closest to the destination
@@ -25,7 +25,52 @@ public class Router {
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        return null; // FIXME
+        Long src = g.closest(stlon, stlat);
+        Long dst = g.closest(destlon, destlat);
+        HashMap<Long, Double> distTo = new HashMap<>();
+        HashMap<Long, Long> edgeTo = new HashMap<>();
+        Set<Long> marked = new HashSet<>();
+        PriorityQueue<Long> pq = new PriorityQueue<>(1,
+                new Comparator<Long>() {
+                    @Override
+                    public int compare(Long v, Long w) {
+                        Double priorityV = distTo.get(v) + g.distance(v, dst);
+                        Double priorityW = distTo.get(w) + g.distance(w, dst);
+                        return priorityV.compareTo(priorityW);
+                    }
+                });
+
+        for (Long id : g.vertices()) {
+            distTo.put(id, Double.POSITIVE_INFINITY);
+            edgeTo.put(id, null);
+        }
+        distTo.put(src, 0.0);
+
+        pq.add(src);
+        while (!pq.isEmpty()) {
+            Long v = pq.poll();
+            marked.add(v);
+            for (Long w : g.adjacent(v)) {
+                if (marked.contains(w)) {
+                    continue;
+                }
+                double cost = distTo.get(v) + g.distance(v, w);
+                if (cost < distTo.get(w)) {
+                    distTo.put(w, cost);
+                    edgeTo.put(w, v);   // edge to w is v (i.e. the edge is from v to w).
+                }
+                if (!pq.contains(w)) {
+                    pq.add(w);
+                }
+            }
+        }
+
+        LinkedList<Long> lst = new LinkedList<>();
+        for (Long x = dst; !x.equals(src); x = edgeTo.get(x)) {
+            lst.addFirst(x);
+        }
+        lst.addFirst(src);
+        return lst; // FIXME
     }
 
     /**
@@ -159,5 +204,6 @@ public class Router {
         public int hashCode() {
             return Objects.hash(direction, way, distance);
         }
+
     }
 }

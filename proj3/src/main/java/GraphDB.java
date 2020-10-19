@@ -44,11 +44,13 @@ public class GraphDB {
     /** adds a node to the database (graph). */
     void addNode(Node n) {
         nodes.put(n.id, n);
+        V++; // increment the nodes counter
     }
 
     /** Removes the node with the specified id. */
     void removeNode(long id) {
         nodes.remove(id);
+        V--;  // decrement the nodes counter.
     }
 
     /** makes an edge between node v and w.
@@ -58,7 +60,8 @@ public class GraphDB {
         addNeighbor(w, nodes.get(v));
     }
 
-    private final Map<Long, Node> nodes = new HashMap<>();  // the nodes constructing the graph.
+    protected final Map<Long, Node> nodes = new HashMap<>();  // the nodes constructing the graph.
+    private int V;  // number of vertices in the graph.
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -221,5 +224,8 @@ public class GraphDB {
     double lat(long v) {
         return nodes.get(v).lat;
     }
+
+    /** Returns the number of nodes in the graph. */
+    int V() { return V; }
 
 }
