@@ -70,7 +70,7 @@ public class Router {
             lst.addFirst(x);
         }
         lst.addFirst(src);
-        return lst; // FIXME
+        return lst;
     }
 
     /**
