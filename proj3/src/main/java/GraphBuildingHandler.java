@@ -37,7 +37,10 @@ public class GraphBuildingHandler extends DefaultHandler {
     private String activeState = "";
     private final GraphDB g;
     private boolean valid_way;
-    private Queue<Long> q = new ArrayDeque<>();
+//    private GraphDB.Way way;
+    private List<Long> nodes = new ArrayList<>();
+    private int wayID;
+    private String wayName;
 
     /**
      * Create a new GraphBuildingHandler.
@@ -79,6 +82,8 @@ public class GraphBuildingHandler extends DefaultHandler {
             activeState = "way";
 //            System.out.println("Way id: " + attributes.getValue("id"));
 //            System.out.println("Beginning a way...");
+//            this.way = new GraphDB.Way();
+            wayID = Integer.parseInt(attributes.getValue("id"));
         } else if (activeState.equals("way") && qName.equals("nd")) {
             /* While looking at a way, we found a <nd...> tag. */
 //            System.out.println("Id of a node in this way: " + attributes.getValue("ref"));
@@ -89,7 +94,7 @@ public class GraphBuildingHandler extends DefaultHandler {
             cumbersome since you might have to remove the connections if you later see a tag that
             makes this way invalid. Instead, think of keeping a list of possible connections and
             remember whether this way is valid or not. */
-            q.add(Long.parseLong(attributes.getValue("ref")));
+            nodes.add(Long.parseLong(attributes.getValue("ref")));
 
         } else if (activeState.equals("way") && qName.equals("tag")) {
             /* While looking at a way, we found a <tag...> tag. */
@@ -107,6 +112,7 @@ public class GraphBuildingHandler extends DefaultHandler {
                 }
             } else if (k.equals("name")) {
                 //System.out.println("Way Name: " + v);
+                wayName = v;
             }
 //            System.out.println("Tag with k=" + k + ", v=" + v + ".");
         } else if (activeState.equals("node") && qName.equals("tag") && attributes.getValue("k")
@@ -141,15 +147,16 @@ public class GraphBuildingHandler extends DefaultHandler {
             if (valid_way) {
                 valid_way = false;  // resetting the flag.
 
-                long w = q.remove();
-                while (!q.isEmpty()) {
-                    long v = q.remove();
-                    g.connect(v, w);
-                    w = v;
-                }
-            } else {
-                q.clear();
+                g.addWay(wayID, wayName, nodes);
+//                long w = q.remove();
+//                while (!q.isEmpty()) {
+//                    long v = q.remove();
+//                    g.connect(v, w);
+//                    w = v;
+//                }
             }
+            wayName = "";
+            nodes.clear();
         }
     }
 

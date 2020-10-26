@@ -76,16 +76,166 @@ public class Router {
     /**
      * Create the list of directions corresponding to a route on the graph.
      * @param g The graph to use.
-     * @param route The route to translate into directions. Each element
+     * @param //route The route to translate into directions. Each element
      *              corresponds to a node from the graph in the route.
      * @return A list of NavigatiionDirection objects corresponding to the input
      * route.
      */
+//    public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> route) {
+//        List<NavigationDirection> directions = new ArrayList<>();
+//        long startVertex = route.get(0);
+//        long secondVertex = route.get(1);
+//        NavigationDirection init = new NavigationDirection();
+//        init.direction = 0;
+//        long wID = getWay(g, startVertex, secondVertex);
+//        init.way = g.nodes.get(startVertex).ways.get(wID);
+//        init.distance = g.distance(startVertex, secondVertex);
+//        directions.add(init);
+//        boolean flag = false;
+//        double totDist = init.distance;
+//        Set<String> ways = new HashSet<>();
+//        ways.add(init.way);
+//        for (int i = 2; i < route.size(); ++i) {
+//            long prev = route.get(i-1);
+//            long current = route.get(i);
+//            long wayID = getWay(g, prev, current);
+//            NavigationDirection dir = new NavigationDirection();
+//            String wayName = g.nodes.get(prev).ways.get(wayID);
+//            if (!wayName.equals("")) {
+//                dir.way = wayName;
+//            }
+//            if (!directions.get(directions.size()-1).way.equals(dir.way)) {
+//                flag = true;
+//            }
+//
+//            dir.direction = getDirection(g, prev, current);
+//
+//            if (!flag) {
+//                // calculating the distance
+//                totDist += g.distance(prev, current);
+//            } else {
+//                dir.distance = totDist + g.distance(prev, current);
+//                directions.add(dir);
+//                ways.add(dir.way);
+//                totDist = 0;
+//                flag = false;
+//            }
+//        }
+//        return directions;
+//    }
+
     public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> route) {
-        return null; // FIXME
+        List<NavigationDirection> result = new ArrayList<>();
+        long startNode = route.get(0);
+        double distance = 0;
+        double relativeBearing = 0;
+        double prevBearing = g.bearing(route.get(0), route.get(1));
+        int currentDirection = NavigationDirection.START;
+        String currentWay = "";
+
+        if (route.size() < 2) {
+            return null;
+        }
+
+        for (int i = 1; i < route.size(); i++) {
+            long prevNode = route.get(i - 1);
+            long currNode = route.get(i);
+            double currBearing = g.bearing(prevNode, currNode);
+            relativeBearing = currBearing - prevBearing;
+
+            /* Get name of the current way */
+            if (prevNode == startNode) {
+                currentWay = getWay(g, prevNode, currNode);
+            }
+            else {
+                prevBearing = currBearing;
+            }
+
+            if (g.getWayNames(currNode).contains(currentWay) && i != route.size() - 1) {
+                distance += g.distance(prevNode, currNode);
+                continue;
+            }
+
+            /* Add last stretch of distance if reached last node */
+            if (i == route.size() - 1) {
+                distance += g.distance(prevNode, currNode);
+            }
+
+            /* Get distance traveled along current way and add nav direction to result */
+            NavigationDirection turn = new NavigationDirection();
+            turn.direction = currentDirection;
+            turn.distance = distance;
+            turn.way = currentWay;
+            result.add(turn);
+
+            /* Start the next way and get direction to turn */
+            startNode = currNode;
+            distance = g.distance(prevNode, currNode);
+            currentDirection = getDirection(relativeBearing);
+        }
+        return result;
     }
 
+    private static String getWay(GraphDB g, long prev, long curr) {
+        for (long w : g.getWays(prev)) {
+            if(g.getWays(curr).contains(w)) {
+                return g.nodes.get(prev).ways.get(w);
+            }
+        }
+        return "";
+    }
 
+    /**
+     * @param relativeBearing Relative bearing between two points
+     * @return
+     */
+    private static int getDirection(double relativeBearing) {
+        double absBearing = Math.abs(relativeBearing);
+        if (absBearing > 180) {
+            absBearing = 360 - absBearing;
+            relativeBearing *= -1;
+        }
+        if (absBearing <= 15) {
+            return NavigationDirection.STRAIGHT;
+        }
+        if (absBearing <= 30) {
+            return relativeBearing < 0 ? NavigationDirection.SLIGHT_LEFT : NavigationDirection.SLIGHT_RIGHT;
+        }
+        if (absBearing <= 100) {
+            return relativeBearing < 0 ? NavigationDirection.LEFT : NavigationDirection.RIGHT;
+        }
+        else {
+            return relativeBearing < 0 ? NavigationDirection.SHARP_LEFT : NavigationDirection.SHARP_RIGHT;
+        }
+    }
+
+//    private static int getDirection(double angle) {
+//        System.out.println("The angle is: " + angle +'\n');
+//        if (-15 <= angle && angle <= 15) {
+//            return 1;
+//        }
+//        else if(-30 <= angle && angle <= 30) {
+//            if (angle < 0) {
+//                return 2;
+//            } else {
+//                return 3;
+//            }
+//        }
+//        else if(-100 <= angle && angle <= 100) {
+//            if (angle < 0) {
+//                return 4;
+//            } else {
+//                return 5;
+//            }
+//        }
+//        else{
+//            if (angle < 0) {
+//                return 6;
+//            } else {
+//                return 7;
+//            }
+//        }
+//    }
     /**
      * Class to represent a navigation direction, which consists of 3 attributes:
      * a direction to go, a way, and the distance to travel for.

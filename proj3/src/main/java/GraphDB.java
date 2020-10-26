@@ -25,32 +25,42 @@ public class GraphDB {
         long id;  // the nodes ID (this is unique for each node).
         double lon, lat;  // longitude and latitude of each node.
         String name;      // the name of each node (optional)
-        Set<Node> adj = new HashSet<>();  // set of adjacency nodes.
+        List<Long> adj;    // list of adjacency nodes.
+        Map<Long, String> ways;
 
         public Node(long id, double lon, double lat) {
             this.id = id;
             this.lon = lon;
             this.lat = lat;
-            adj = new HashSet<>();
+            adj = new ArrayList<>();
+            ways = new HashMap<>();
         }
     }
 
     /** adds n to the neighbor's collection of
      *  the node with id v. */
     void addNeighbor(long v, Node n) {
-        nodes.get(v).adj.add(n);
+        nodes.get(v).adj.add(n.id);
     }
 
     /** adds a node to the database (graph). */
     void addNode(Node n) {
         nodes.put(n.id, n);
-        V++; // increment the nodes counter
+    }
+
+    void addWay(long wayID, String wayName, List<Long> w) {
+        for (int x = 1; x < w.size(); ++x) {
+            long prev = w.get(x-1);
+            long current = w.get(x);
+            connect(prev, current);
+            nodes.get(prev).ways.put(wayID, wayName);
+            nodes.get(current).ways.put(wayID, wayName);
+        }
     }
 
     /** Removes the node with the specified id. */
     void removeNode(long id) {
         nodes.remove(id);
-        V--;  // decrement the nodes counter.
     }
 
     /** makes an edge between node v and w.
@@ -60,8 +70,9 @@ public class GraphDB {
         addNeighbor(w, nodes.get(v));
     }
 
-    protected final Map<Long, Node> nodes = new HashMap<>();  // the nodes constructing the graph.
-    private int V;  // number of vertices in the graph.
+    protected final Map<Long, Node> nodes = new HashMap<>();  // the nodes of the graph.
+//    protected final Map<Long, String> ways = new HashMap<>();  // the ways present in this graph. (id, name)
+
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -122,17 +133,21 @@ public class GraphDB {
         return nodes.keySet();
     }
 
+    Set<Long> getWays(long id) {
+        return nodes.get(id).ways.keySet();
+    }
+
+    Set<String> getWayNames(long id) {
+        return new HashSet<>(nodes.get(id).ways.values());
+    }
+
     /**
      * Returns ids of all vertices adjacent to v.
      * @param v The id of the vertex we are looking adjacent to.
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        LinkedList<Long> adjList = new LinkedList<>();
-        for (Node n : nodes.get(v).adj) {
-            adjList.add(n.id);
-        }
-        return adjList;
+        return nodes.get(v).adj;
     }
 
     /**
@@ -224,8 +239,5 @@ public class GraphDB {
     double lat(long v) {
         return nodes.get(v).lat;
     }
-
-    /** Returns the number of nodes in the graph. */
-    int V() { return V; }
 
 }
